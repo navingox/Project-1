@@ -1,0 +1,156 @@
+
+.carddecks::-webkit-scrollbar {
+    display: none;
+ }
+ 
+ 
+ .carddecks{
+     display: flex;
+     overflow-x: auto;
+     text-align: center;
+     background-color: #FFFFFF !important;
+     padding: 20px;
+ }
+ 
+ .navitem .headingItem{
+ display: flex;
+ }
+ .wrcarddecksap .cardItem{
+     margin-right: 4px !important;
+     background-color: #FFFFFF;
+    
+ } 
+
+ 
+ .navitem{
+     display:flex;
+     flex-direction: row;
+     align-items: center;
+     justify-content: space-between;   
+ }
+
+
+
+ .headingItem{
+     display: flex;
+     flex-direction: row;
+ }
+ 
+ .myimage{
+     height: 50%;
+     width: 50%;
+     background-color: #FFFFFF;
+ } 
+ .headingItem{
+     display: flex;
+     flex-direction: row;
+ }
+ 
+ .SearchResultNumber{
+     display: flex;
+     flex-direction: row;
+ }
+ 
+ .card{
+     border-radius: 15px !important;
+     margin: 5px;
+     background-color: gray ;
+   
+ }
+ 
+ .card-img-top{
+     background-color: #FFFFFF;
+     padding:5px;
+ }
+ 
+ 
+ .tab-content{
+     background: #fff;
+     border-bottom-right-radius: 30px;
+     border-bottom-left-radius: 30px;
+     box-shadow: 0 3px 6px rgba(0,0,0,0.16) ,0 3px 6px rgba(0,0,0,0.23);
+     display: flex;
+      justify-content: space-between;
+      width: 450px; 
+      bottom: 0;
+      flex-wrap: wrap;
+ }
+ 
+ .tab{
+     background: #fff;
+     border-radius: 50px;
+     cursor: pointer;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     padding:1px;
+     flex-wrap: wrap;
+ }
+
+ .tab i{
+     font-size: 1.2rem;
+ }
+
+ .tab p{
+     font-weight: bold;
+     margin-left:10px ;
+     max-width: 200px;
+ }
+
+ .mycontainer{
+     text-align: center;
+     overflow: hidden;
+     position: fixed;
+     bottom: 0;
+     width: 100%;
+
+ }
+
+
+ .myimage{
+		height: 500px;
+	}
+	.mycolum{
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		justify-content: space-between;
+	}
+	.rowcol{
+		display: flex;
+		flex-direction: column;
+    }
+    
+    .maindot{
+        display: flex;
+        flex-direction: row;
+    }
+        .dot {
+            height: 25px;
+            width: 25px;
+            border-radius: 50%;
+            background-color: blue;
+          }
+
+.cartTotal{
+    margin-top: 100px;
+}
+
+.cartComponent{
+    margin-left: 40px;
+    margin-bottom: 40px;
+}
+
+
+.badge:after{
+    content:attr(value);
+    font-size:12px;
+    background: red;
+    border-radius:50%;
+    padding:3px;
+    position:relative;
+    left:-8px;
+    top:-10px;
+    opacity:0.9;
+    }
+
