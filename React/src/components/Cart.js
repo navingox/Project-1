@@ -1,4 +1,4 @@
-import React, { useState, useEffect ,useContext} from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import Bottombar from './Bottombar';
 import Axios from 'axios';
 import { makeStyles } from '@material-ui/core/styles';
@@ -20,22 +20,22 @@ const useStyles = makeStyles({
 const Cart = () => {
     const classes = useStyles();
     const [orderedProducts, SetorderedProducts] = useState([]);
-    const [refreshCart,SetrefreshCart]=useState("change");
-    
-      const[Item,setItem] = useContext(CartContext);
+    const [refreshCart, SetrefreshCart] = useState("change");
+
+    const [Item, setItem] = useContext(CartContext);
 
 
-    const Prices=orderedProducts.map(o=>{
+    const Prices = orderedProducts.map(o => {
         return parseInt(o.price);
-    }).reduce(function(total, amount){
+    }).reduce(function (total, amount) {
         return total + amount;
-      },0);
+    }, 0);
 
-     
+
 
     useEffect(() => {
         getOrderProducts();
-        
+
     }, [refreshCart]);
 
     const getOrderProducts = async () => {
@@ -44,17 +44,45 @@ const Cart = () => {
             SetorderedProducts(res.data.data);
             setItem(res.data.data.length);
         })
-        
+
     }
- 
-    const handleDeleteCart=async (deleteImageId)=>{
-          await Axios.delete(`http://localhost:8000/orders/deleteItems/${deleteImageId}`).then(res=>{
-               console.log(res.data);
-               SetrefreshCart("refreshthecart");
-               setItem(orderedProducts.length);
-           })        
+
+    const handleDeleteCart = async (deleteImageId) => {
+        await Axios.delete(`http://localhost:8000/orders/deleteItems/${deleteImageId}`).then(res => {
+            console.log(res.data.data);
+            SetrefreshCart("refreshthecart");
+            setItem(orderedProducts.length);
+        })
     }
-   
+
+
+    const updateQunatity = async (UpdateProductId, Quantitycount, UpdatedPrice) => {
+
+        const updateQunatityData = {
+            UpdateProductId, Quantitycount, UpdatedPrice
+        }
+
+        await Axios.post('http://localhost:8000/orders/updateQuantity', updateQunatityData).then(res => {
+            console.log(res.data.data);
+            getOrderProducts();
+        })
+    }
+
+    const handleIncrement = (newQuantity_1, productid_1, Price1, OriginalPrice1) => {
+        const NewPrice_1 = Price1 + OriginalPrice1;
+        updateQunatity(productid_1, parseInt(newQuantity_1) + 1, NewPrice_1);
+    }
+
+    const handleDecrement = (newQuantity_2, productid_2, Price2, OriginalPrice2) => {
+        if (newQuantity_2 == 1) {
+            updateQunatity(productid_2, 1, parseInt(OriginalPrice2));
+        } else {
+            const NewPrice_2 = Price2 - OriginalPrice2;
+            updateQunatity(productid_2, parseInt(newQuantity_2) - 1, NewPrice_2);
+        }
+
+    }
+
     return (
         <div>
             <h1>Cart Page</h1>
@@ -63,33 +91,40 @@ const Cart = () => {
                 <div className="row ">
                     <div className="col text-center">
                         {
-                          refreshCart&& orderedProducts.map((order,index) => (
+                            refreshCart && orderedProducts.map((order, index) => (
                                 <div key={index} className="cartComponent">
                                     <Card className={classes.root}>
+                                        <div style={{ display: "flex", flexDirection: "row-reverse" }}>
+
+                                            <Button size="small" style={{ color: "red" }} onClick={() => handleDeleteCart(order.productId)}><i className="fa fa-trash fa-lg" aria-hidden="true"></i>&nbsp;Remove</Button>
+                                        </div>
                                         <CardActionArea>
                                             <CardMedia
                                                 component="img"
                                                 alt={order.productName}
                                                 height="100%"
                                                 image={order.productImagePath}
-                                                title="Contemplative Reptile"
+                                                title={order.productName}
                                             />
                                             <CardContent>
                                                 <Typography gutterBottom variant="h5" component="h2">
                                                     {order.productName}
                                                 </Typography>
-                                                {/* <Typography variant="body2" color="textSecondary" component="p">
-                                                 
-                                                </Typography> */}
                                             </CardContent>
                                         </CardActionArea>
                                         <CardActions>
                                             <Button size="small" color="primary">
                                                 Price: ${order.price}
                                             </Button>
-                                            <Button size="small"   style={{color:"red"}} onClick={()=>handleDeleteCart(order.imageId)}>
-                                                  Remove
+
+                                            <Button variant="contained" size="small" onClick={() => handleDecrement(order.quantity, order.productId, order.price, order.originalPrice)}>
+                                                -
                                             </Button>
+                                            <Button>{order.quantity}</Button>
+                                            <Button variant="contained" size="small" onClick={() => handleIncrement(order.quantity, order.productId, order.price, order.originalPrice)} >
+                                                +
+                                            </Button>
+
                                         </CardActions>
                                     </Card>
                                 </div>
@@ -97,13 +132,13 @@ const Cart = () => {
                         }
                     </div>
                 </div>
-                <h1 className="btn btn-success rounded-pill p-2 mt-5">TotalPrice : ${Prices}</h1>
+                <h1 className="btn btn-success rounded-pill p-2 mt-5">Total Price : ${Prices}</h1>
                 <div className="cartTotal" >
                 </div>
             </div>
             <Bottombar />
         </div>
-        
+
     );
 }
 

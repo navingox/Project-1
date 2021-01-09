@@ -37,14 +37,15 @@ const Product = (props) => {
         });
     }
 
-    const handleCartEvent = async (CartData) => {
-        const orderData = {
-            orderImageId: CartData
-        }
+    const handleCartEvent = async (indexData )=> {
+        
+        const orderData = productData[indexData];
+
         await Axios.post("http://localhost:8000/orders/addToCart", { orderData }).then(res => {
             console.log(res.data);
             SetwhenAdded(true);
         })
+
         setItem(Item + 1);
     }
 
@@ -100,7 +101,7 @@ const Product = (props) => {
                                 <div className="container">
                                     <div className="row">
                                         <div className="col-sm-5 text-center">
-                                            <button className="form-control rounded-pill text-center text-white" style={{ backgroundColor: "#8A2BE2", height: "50px" }} onClick={() => handleCartEvent(item.imageId)} ><b>ADD TO CART</b></button>
+                                            <button className="form-control rounded-pill text-center text-white" style={{ backgroundColor: "#8A2BE2", height: "50px" }} onClick={() => handleCartEvent(index)} ><b>ADD TO CART</b></button>
                                         </div>
                                     </div>
                                 </div>

@@ -1,9 +1,13 @@
 const router = require('express').Router();
 const pool = require('../../config/database');
 
-router.get('/', (req, res) => {   
-    const orderlastusername = "navin@gmail.com";
-    const orderGetItemQuery = `select * from products where imageId IN (select orderProductId from orders where username = '${orderlastusername}')`;
+
+const UserProductId = 1;
+
+router.get('/', (req, res) => {
+
+//select * from products where imageId IN (select productId from cart_items where personId = '${UserProductId}' and cartId= '${UserProductId}' );
+    const orderGetItemQuery = `select * from cart_items where cartId = ' ${UserProductId}' and personId = '${UserProductId}' `;
 
     pool.getConnection((err, connection) => {
         if (err) console.log(err);
@@ -25,34 +29,53 @@ router.get('/', (req, res) => {
 
 
 
-router.post('/addToCart', (req, res) => {   
+router.post('/addToCart', (req, res) => {
 
-    const {orderImageId}=req.body.orderData;
+    const { imageId, categoryName, productImagePath, productName, categoryItems, productDescription, groupId, imageColor,price} = req.body.orderData;
 
-    const orderAddToCartlastusername = "navin@gmail.com";
-    const orderItemQuery = `insert into orders values ('${orderAddToCartlastusername}','${orderImageId}')`;
+    const defaultQuantity = 1;
+
+
+    const searchItemQuery = `select * from cart_items where productId = ' ${imageId}'`;
 
     pool.getConnection((err, connection) => {
         if (err) console.log(err);
-        connection.query(orderItemQuery, (err, result) => {
+        connection.query(searchItemQuery, (err, result) => {
 
             if (err) { console.log(err); }
 
-            res.status(200).json({
-                data: "Added To Cart"
-            })
+            if (result.length == 0) {
+
+                const orderItemQuery = `insert into cart_items values ('${UserProductId}','${UserProductId}','${imageId}','${categoryName}','${productImagePath}','${productName}','${categoryItems}','${productDescription}','${groupId}','${imageColor}','${defaultQuantity}','${price}','${price}')`;
+                pool.getConnection((err, connection) => {
+                    if (err) console.log(err);
+                    connection.query(orderItemQuery, (err, result) => {
+
+                        if (err) { console.log(err); }
+
+                        res.status(200).json({
+                            data: "Added To Cart"
+                        })
+                        connection.release();
+                    })
+                })
+            } else {
+                res.status(200).json({
+                    data: "Already in cart"
+                })
+            }
             connection.release();
         })
     })
+
 })
 
 
-router.delete('/deleteItems/:id', (req, res) => {   
+router.delete('/deleteItems/:id', (req, res) => {
 
-    const deleteProductId=req.params.id;
-    
-    const orderAddToCartlastusername = "navin@gmail.com";
-    const deleteItemQuery = `delete from  orders where orderProductId =' ${deleteProductId}' and username= '${orderAddToCartlastusername}'`;
+    const deleteProductId = req.params.id;
+
+    const deleteItemQuery = `delete from  cart_items where productId =' ${deleteProductId}' and personId = '${UserProductId}' and cartId= '${UserProductId}'`;
 
     pool.getConnection((err, connection) => {
         if (err) console.log(err);
@@ -67,5 +90,29 @@ router.delete('/deleteItems/:id', (req, res) => {
         })
     })
 })
+
+
+router.post('/updateQuantity', (req, res) => {
+
+    const { UpdateProductId, Quantitycount, UpdatedPrice } = req.body;
+
+    const updateQuantityQuery = `update cart_items set quantity= '${Quantitycount}', price='${UpdatedPrice}' where personId ='${UserProductId}' and productId='${UpdateProductId}' `;
+
+    pool.getConnection((err, connection) => {
+        if (err) console.log(err);
+        connection.query(updateQuantityQuery, (err, result) => {
+
+            if (err) { console.log(err); }
+
+            res.status(200).json({
+                data: "Quantity and Price Chanaged"
+            })
+            connection.release();
+        })
+    })
+})
+
+
+
 
 module.exports = router;
