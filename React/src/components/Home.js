@@ -2,7 +2,8 @@ import React from 'react'
 import Category from './Category';
 import Recommended from './Recommended';
 import Bottombar from './Bottombar';
-
+import Bottom from './Bottom';
+import './Home.css';
 
 const Home = () => {
     return (
@@ -27,11 +28,11 @@ const Home = () => {
                 <div className="row p-2">
                     <div className="col">
                         <div className="headingItem">
-                            <h4 className="font-italic float-left">Browse Category</h4>
+                            <h4 className="Home__Title">Browse Category</h4>
                         </div>
                     </div>
                 </div>
-                <div className="row p-2">
+                <div className="row">
                     <div className="col">
                         <Category />
                     </div>
@@ -42,7 +43,7 @@ const Home = () => {
                 <div className="row p-2">
                     <div className="col">
                         <div className="headingItem">
-                            <h4 className="font-italic float-left">Recommendations</h4>
+                            <h4 className="Home__Title">Recommendations</h4>
                         </div>
                     </div>
                 </div>
@@ -52,7 +53,7 @@ const Home = () => {
                     </div>
                 </div>
             </div>
-            <Bottombar />
+            <Bottom data={1} />
         </div>
     );
 }

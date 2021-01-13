@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import ColorPicker from 'material-ui-color-picker';
-import Axios from 'axios';
+import axios from './axios';
 import { useHistory } from 'react-router-dom';
 
 const AddProduct = () => {
@@ -17,7 +17,7 @@ const AddProduct = () => {
   });
 
   useEffect(() => {
-    Axios.get('http://localhost:8000/category/getItems').then(res => {
+    axios.get('/category/getItems').then(res => {
       SetcategoryItems(res.data.data);
     })
   }, []);
@@ -44,7 +44,7 @@ const AddProduct = () => {
       productData.append('photo', chooseImage)
 
       console.log({ productData });
-      const productResponse = await Axios.post('http://localhost:8000/addProduct', productData);
+      const productResponse = await axios.post('http://localhost:8000/addProduct', productData);
       console.log(productResponse);
       history.push('/');
     } catch (err) {

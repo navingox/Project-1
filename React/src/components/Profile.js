@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import Axios from 'axios';
+import axios from './axios';
 import Bottombar from './Bottombar';
-
+import './Profile.css';
+import Bottom from './Bottom';
 
 const Profile = () => {
     const [ProfileData, setProfileData] = useState([]);
@@ -12,7 +13,7 @@ const Profile = () => {
 
 
     const getUserProfileDetails = async () => {
-        await Axios.get("http://localhost:8000/profile").then(res => {
+        await axios.get("/profile").then(res => {
             console.log(res.data.data);
             setProfileData(res.data.data);
         })
@@ -58,7 +59,7 @@ const Profile = () => {
 
                 </div>
             ))}
-            <Bottombar />
+            <Bottom data={4}/>
         </div>
     )
 }

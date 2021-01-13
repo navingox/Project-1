@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext, forwardRef, useImperativeHandle } from 'react';
-import Axios from 'axios';
+import axios from './axios';
 import { useHistory } from 'react-router-dom';
 import ReactJsAlert from "reactjs-alert";
 import { CartContext } from '../context/CartContext';
@@ -22,7 +22,7 @@ const Model = forwardRef((props, ref) => {
         return {
             open: () => setOpen(true),
             close: () => setOpen(false),
-            call:(val)=>{getProducts(val)}
+            call: (val) => { getProducts(val) }
         }
     })
 
@@ -30,13 +30,13 @@ const Model = forwardRef((props, ref) => {
     //     getProducts();
     // }, [])
 
-    
-     const getProducts = async (val) => {
-         Axios.get(`http://localhost:8000/product/${val}`).then(res => {
+
+    const getProducts = async (val) => {
+        axios.get(`/product/${val}`).then(res => {
             console.log(res.data.data);
             SetproductData(res.data.data);
         })
-     }
+    }
 
     const handleImageChange = (image) => {
         SetimageData(image);
@@ -47,7 +47,7 @@ const Model = forwardRef((props, ref) => {
 
         const orderData = productData[indexData];
 
-        await Axios.post("http://localhost:8000/orders/addToCart", { orderData }).then(res => {
+        await axios.post("/orders/addToCart", { orderData }).then(res => {
             console.log(res.data);
             SetwhenAdded(true);
         })
@@ -94,10 +94,10 @@ const Model = forwardRef((props, ref) => {
                         className="modal-content-wrapper">
                         <motion.div className="modal-content">
 
-                            <div className="container">
-                                <div className="row">
+                            <div className="container Modal__nav">
+                                <div className="row p-2">
                                     <div className="col">
-                                        <div className="navitem p-2">
+                                        <div className="navitem ">
                                             <p onClick={() => setOpen(false)}><i className="fas fa-arrow-left fa-lg" ></i></p>
                                             <p onClick={handleCart}><i className="fas fa-shopping-bag fa-lg"></i>{Item}</p>
                                         </div>
@@ -112,25 +112,25 @@ const Model = forwardRef((props, ref) => {
                                             <div className="Model__MainDiv" key={item.imageId}>
                                                 <div className="container">
                                                     <div className="row">
-                                                         <div className="MainContainer">
-                                                                  <p className="Model__CategoryName">{item.categoryName}</p>
-                                                                    <h4 className="Model__Productname"><b>{item.productName}</b></h4>
-                                                                    <p className="Model__From">FROM</p>
-                                                                    <p className="Model__Price">$ {item.price}</p>
-                                                                    <p className="Model__availableColors">Available colors</p>
-                                                                    <div className="Model__Colors">
-                                                                    {productData.map((i, index) => (
-                                                                            <div key={index} className="maindot p-1">
-                                                                                <span className="dot" style={{ backgroundColor: i.imageColor }} onClick={() => handleImageChange(index)} ></span>
-                                                                            </div>
-                                                                        ))}
+                                                        <div className="MainContainer">
+                                                            <p className="Model__CategoryName">{item.categoryName}</p>
+                                                            <h4 className="Model__Productname"><b>{item.productName}</b></h4>
+                                                            <p className="Model__From">FROM</p>
+                                                            <p className="Model__Price">$ {item.price}</p>
+                                                            <p className="Model__availableColors">Available colors</p>
+                                                            <div className="Model__Colors">
+                                                                {productData.map((i, index) => (
+                                                                    <div key={index} className="maindot p-1">
+                                                                        <span className="dot" style={{ backgroundColor: i.imageColor }} onClick={() => handleImageChange(index)} ></span>
                                                                     </div>
+                                                                ))}
+                                                            </div>
 
-                                                             <div className="ImageContainer">
-                                                             <img src={item.productImagePath} className="img-fluid" alt="Responsive image" />
-                                                             </div>
-                                                         
-                                                         </div>
+                                                            <div className="ImageContainer">
+                                                                <img src={item.productImagePath} className="img-fluid" alt="Responsive image" />
+                                                            </div>
+
+                                                        </div>
 
                                                         <div className="Model__DescMain">
                                                             <h4 className="card-text Model_DescriptionTitle" style={{ display: "flex" }}>Description</h4>

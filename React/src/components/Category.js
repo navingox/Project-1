@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from 'react'
-import Axios from 'axios';
-import './main.css';
+import axios from './axios';
 import { useHistory } from 'react-router-dom';
-
+import './Category.css';
 
 function Category() {
   const [categoryItems, setCategoryItems] = useState([])
   const history = useHistory();
 
   useEffect(() => {
-    Axios.get('http://localhost:8000/category').then(res => {
+    axios.get('/category').then(res => {
       setCategoryItems(res.data.data)
     })
   }, [])
@@ -23,13 +22,18 @@ function Category() {
   return (
 
     <div className="carddecks">
+
       {categoryItems.map(item => (
-        <div key={item.categoryId} onClick={() => getCategoryProduct(item.categoryName)}>
-          <div className="card cardItem rounded-pill" style={{ width: "10rem" }}>
-            <img className="card-img-top img-fluid  myimage rounded-pill" src={item.imagePath} alt={item.categoryName} />
-            <div className="card-body">
-              <p className="card-text">{item.categoryName}</p>
+        <div className="maincontainer">
+          <div className="main">
+
+            <div className="one" key={item.categoryId} onClick={() => getCategoryProduct(item.categoryName)}>
+              <div className="imge">
+                <img className="myimage" src={item.imagePath} alt={item.categoryName} />
+                <p className="CategoryRecommended__Name" >{item.categoryName}</p>
+              </div>
             </div>
+
           </div>
         </div>
       ))}

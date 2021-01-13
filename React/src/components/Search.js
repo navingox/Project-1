@@ -1,10 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
-import Axois from 'axios';
+import axios from './axios';
 import SearchBar from "material-ui-search-bar";
 import Bottombar from './Bottombar';
 import './main.css';
 import Model from './Model';
 import "./Modal.css";
+import './Search.css';
+import Bottom from './Bottom';
 
 const Search = () => {
     const [searchValue, SetsearchValue] = useState('');
@@ -22,7 +24,7 @@ const Search = () => {
     }, [searchValue]);
 
     const getSearchResult = async () => {
-        Axois.get(`http://localhost:8000/search/${searchValue.val}`).then(res => {
+        axios.get(`/search/${searchValue.val}`).then(res => {
             console.log(res.data.data);
             SetsearchResult(res.data.data);
             Setfound(true);
@@ -62,17 +64,18 @@ const Search = () => {
                 </div>
 
 
-                <div className="row">
+                <div className="row p-2">
                     <div className="col">
                     <div class="wrapper">
                         {searchResult.map(item => (
                             <div key={item.imageId} onClick={() => handleModal(item.groupId)}>
                                 <div className="col">
                                     <div className="Search__Cards">
-                                        <div className="card" style={{ width: "8rem" }}>
+                                        <div className="card Search__card" style={{ width: "8rem" }}>
                                             <img className="card-img-top img-fluid rounded" src={item.productImagePath} alt={item.categoryName} />
                                             <div className="card-body">
-                                                <p className="card-text">{item.categoryName}</p>
+                                                <p className="card-text CategoryRecommended__Name">{item.categoryName}</p>
+                                                <p className="card-text">$ {item.price}</p>
                                             </div>
                                         </div>
 
@@ -83,14 +86,11 @@ const Search = () => {
                     </div>
                     </div>
                 </div>
-
+                <Model ref={modalRef}></Model>
             </div>
-            <Model ref={modalRef}></Model>
-
-            <Bottombar />
-
+            <Bottom data={2} />
         </div>
     );
 }
 
-export default Search
+export default Search;

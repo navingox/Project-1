@@ -18,8 +18,7 @@
 
   .cardItem{
      margin-right: 4px !important;
-     background-color: #FFFFFF;
-    
+     background-color: #FFFFFF; 
  } 
 
  
@@ -36,12 +35,6 @@
      display: flex;
      flex-direction: row;
  }
- 
- .myimage{
-     height: 50%;
-     width: 50%;
-     background-color: #FFFFFF;
- } 
  .headingItem{
      display: flex;
      flex-direction: row;
@@ -51,17 +44,15 @@
      display: flex;
      flex-direction: row;
  }
- 
- .card{
-     border-radius: 15px !important;
-     margin: 5px;
-     background-color: gray ;
-   
+
+
+ .cardItem{
+    margin: 5px;
+    background: #F3F6F8 !important;
  }
  
- .card-img-top{
-     background-color: #FFFFFF;
-     padding:5px;
+ .cardImagePadding{
+     padding:20px !important;
  }
  
  
@@ -108,9 +99,6 @@
  }
 
 
- .myimage{
-		height: 500px;
-	}
 	.mycolum{
 		display: flex;
 		flex-direction: row;
@@ -157,9 +145,10 @@
 .MainContainer{
     height: 300px;
     width: 500px;
-    /* border:1px solid black;
-    background-color: blue; */
     position: relative;
+    background-color:#F3F6F8 ;
+    border-bottom-left-radius: 16px;
+    border-bottom-right-radius: 16px;
 }
 
 .ImageContainer{
@@ -294,6 +283,56 @@ padding: 12px;
 .wrapper {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
-    grid-auto-rows: 200px;
+    gap: 30px;
+    grid-auto-rows: 250px;
   }
+
+  .mywrapper{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px;
+    grid-auto-rows: 250px;
+  }
+
+
+
+.Home__Title{
+font-family: DM Sans;
+font-style: normal;
+font-weight: bold;
+font-size: 24px;
+line-height: 20px;
+color: #171717;
+}
+
+.CategoryRecommended__Name{
+    font-family: DM Sans;
+font-style: normal;
+font-weight: bold;
+font-size: 18px;
+line-height: 24px;
+text-align: center;
+letter-spacing: -0.4px;
+color: #171717;
+}
+
+
+.Recommended__card{
+    margin-right: 15px !important;
+    padding: 8px;
+    border: 0px !important;
+    border-radius: 15px !important;
+    background: #F3F6F8 !important;
+}
+
+.Search__card{
+    margin-right: 15px !important;
+    padding: 8px;
+    border-radius: 15px !important;
+    background: #F3F6F8 !important;
+    border:0px !important;
+}
+
+.Modal__nav{
+    background: #F3F6F8 !important;
+ }

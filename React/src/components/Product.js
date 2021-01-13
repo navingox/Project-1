@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useContext } from 'react';
-import Axios from 'axios';
+import axios from './axios';
 import Bottombar from './Bottombar';
 import './main.css';
 import { useHistory } from 'react-router-dom';
 import ReactJsAlert from "reactjs-alert";
 import { CartContext } from '../context/CartContext';
+import './Modal.css';
 
 const Product = (props) => {
     const [productData, SetproductData] = useState([]);
@@ -21,7 +22,7 @@ const Product = (props) => {
 
 
     const getProducts = async () => {
-        Axios.get(`http://localhost:8000/product/${props.location.productData}`).then(res => {
+        axios.get(`/product/${props.location.productData}`).then(res => {
             console.log(res.data.data);
             SetproductData(res.data.data);
         })
@@ -41,7 +42,7 @@ const Product = (props) => {
         
         const orderData = productData[indexData];
 
-        await Axios.post("http://localhost:8000/orders/addToCart", { orderData }).then(res => {
+        await axios.post("/orders/addToCart", { orderData }).then(res => {
             console.log(res.data);
             SetwhenAdded(true);
         })
@@ -54,7 +55,7 @@ const Product = (props) => {
     }
     return (
         <div>
-            <div className="container p-2">
+            <div className="container p-2 Modal__nav">
                 <div className="row">
                     <div className="col">
                         <div className="navitem">
@@ -65,52 +66,55 @@ const Product = (props) => {
                 </div>
             </div>
 
-            <div className="carddecks ">
-                {productData.map((item, index) => {
-                    if (index === imageData) {
-                        return (
-                            <div className="container" key={item.imageId}>
-                                <div className="row">
-                                    <div className="col">
-                                        <div className="productcard">
-                                            <div className="mycolum">
-                                                <div className="rowcol">
-                                                    <p>{item.categoryName}</p>
-                                                    <h4><b>{item.productName}</b></h4>
-                                                    <p>FROM</p>
-                                                    <p>{item.price}</p>
-                                                    <p>Available colors</p>
-                                                    <div className="colorMap">
-                                                        {productData.map((i, index) => (
-                                                            <div key={index} className="maindot" onClick={() => handleImageChange(index)}>
+            <div>
+                                {productData.map((item, index) => {
+                                    if (index === imageData) {
+                                        return (
+                                            <div className="Model__MainDiv" key={item.imageId}>
+                                                <div className="container">
+                                                    <div className="row">
+                                                         <div className="MainContainer">
+                                                                  <p className="Model__CategoryName">{item.categoryName}</p>
+                                                                    <h4 className="Model__Productname"><b>{item.productName}</b></h4>
+                                                                    <p className="Model__From">FROM</p>
+                                                                    <p className="Model__Price">$ {item.price}</p>
+                                                                    <p className="Model__availableColors">Available colors</p>
+                                                                    <div className="Model__Colors">
+                                                                    {productData.map((i, index) => (
+                                                                            <div key={index} className="maindot p-1">
+                                                                                <span className="dot" style={{ backgroundColor: i.imageColor }} onClick={() => handleImageChange(index)} ></span>
+                                                                            </div>
+                                                                        ))}
+                                                                    </div>
 
-                                                                <span className="dot" style={{ backgroundColor: i.imageColor }}></span>
-                                                            </div>
-                                                        ))}
+                                                             <div className="ImageContainer">
+                                                             <img src={item.productImagePath} className="img-fluid" alt="Responsive image" />
+                                                             </div>
+                                                         
+                                                         </div>
+
+                                                        <div className="Model__DescMain">
+                                                            <h4 className="card-text Model_DescriptionTitle" style={{ display: "flex" }}>Description</h4>
+                                                            <p className="Model__Description"> {item.productDescription}</p>
+                                                        </div>
+
                                                     </div>
                                                 </div>
-                                                <img src={item.productImagePath} className="img-fluid myimage" alt="Responsive image" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="card-body">
-                                        <h4 className="card-text p-3">Description</h4>
-                                        <p>{item.productDescription}</p>
-                                    </div>
-                                </div>
-                                <div className="container">
-                                    <div className="row">
-                                        <div className="col-sm-5 text-center">
-                                            <button className="form-control rounded-pill text-center text-white" style={{ backgroundColor: "#8A2BE2", height: "50px" }} onClick={() => handleCartEvent(index)} ><b>ADD TO CART</b></button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
 
-                        )
-                    }
-                })}
-            </div>
+                                                <div className="container p-4">
+                                                    <div className="row">
+                                                        <div className="col-sm-5 text-center">
+                                                            <button className="form-control rounded-pill text-center text-white" style={{ backgroundColor: "#8A2BE2", height: "50px" }} onClick={() => handleCartEvent(index)} ><b>ADD TO CART</b></button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                        )
+                                    }
+                                })}
+                            </div>
             {
                 whenAdded && <ReactJsAlert
                     type="success"
@@ -123,7 +127,7 @@ const Product = (props) => {
                 />
             }
 
-            <Bottombar />
+            {/* <Bottombar /> */}
         </div>
     );
 }

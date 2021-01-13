@@ -1,5 +1,5 @@
 import React ,{useContext}from 'react'
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import './main.css';
 import {CartContext} from '../context/CartContext';
 
@@ -14,28 +14,28 @@ const Bottombar = () => {
                    <nav className="tab-content navbar">
         
                         <div className="tab">
-                            <Link to='/' style={{ "textDecoration": 'none'}}>
+                            <NavLink activeClassName="navbar__link--active" to='/' style={{ "textDecoration": 'none'}}>
                                <i className="fas fa-home" ></i>
                                <p>Home</p>
-                            </Link>
+                            </NavLink>
                         </div>
                         <div className="tab">
-                            <Link to='/search' style={{ "textDecoration": 'none'}}>
+                            <NavLink to='/search' style={{ "textDecoration": 'none'}}>
                                <i className="fas fa-search" ></i>
                                <p>Search</p>
-                            </Link>
+                            </NavLink>
                         </div>
                         <div className="tab">
-                            <Link to='/cart' style={{ "textDecoration": 'none'}} >
+                            <NavLink to='/cart' style={{ "textDecoration": 'none'}} >
                             <i className="fas fa-shopping-bag "></i>
                             <p>Cart <span className="CartIconRound" >{Item}</span></p>
-                            </Link>
+                            </NavLink>
                         </div>
                         <div className="tab">
-                            <Link to='/profile' style={{ "textDecoration": 'none'}}>
+                            <NavLink to='/profile' style={{ "textDecoration": 'none'}}>
                             <i className="fas fa-user" ></i>
                             <p>Profile</p>
-                            </Link>
+                            </NavLink>
                         </div>
                       
                     </nav>

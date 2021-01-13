@@ -1,8 +1,8 @@
 import React, { useState, useEffect,useContext } from 'react';
-import Axios from 'axios';
+import axios from './axios';
 import BottomBar from './Bottombar';
 import { useHistory } from 'react-router-dom';
-import "./style.css"
+import "./main.css"
 import { CartContext } from '../context/CartContext';
 
 const Items = (props) => {
@@ -15,9 +15,8 @@ const Items = (props) => {
     }, [])
 
 
-
     const getProducts = async () => {
-        Axios.get(`http://localhost:8000/category/get/${props.location.productData}`).then(res => {
+        axios.get(`/category/get/${props.location.productData}`).then(res => {
             console.log(res.data.data);
             SetproductData(res.data.data);
         })
@@ -54,26 +53,37 @@ const Items = (props) => {
                         </div>
                     </div>
                 </div>
-            </div>
 
 
-            <div className="container p-1">
-                <div className="row p-2 ">
-                    {productData.map(item => (
+                <div className="row p-2">
+                         <div className="mywrapper">
+                        {productData.map(item => (
                         <div key={item.imageId} onClick={() => getSpecificProduct(item.groupId)}>
-                            <div className="col-sm-12 mycardAlignment">
-                                <div className="card rounded " style={{ "width": "15rem" }}>
-                                    <img className="card-img-top img-fluid text-center" src={item.productImagePath} alt={item.categoryName} />
-                                    <div className="card-body text-center">
-                                        <p className="card-text">{item.productName}</p>
+                               <div className="col">
+                                    <div className="Search__Cards">
+                                        <div className="card Search__card" style={{ width: "8rem" }}>
+                                            <img className="card-img-top img-fluid rounded" src={item.productImagePath} alt={item.categoryName} />
+                                            <div className="card-body">
+                                                <p className="card-text CategoryRecommended__Name">{item.categoryName}</p>
+                                                <p className="card-text">$ {item.price}</p>
+                                            </div>
+                                        </div>
+
                                     </div>
                                 </div>
                             </div>
-                        </div>
                     ))}
+
+                    </div>
                 </div>
+
+
             </div>
+
+
+                
             <BottomBar />
+            
         </div>
     );
 }
